@@ -65,6 +65,7 @@ function playDrum(key) {
 
   if (!button) return;
 
+  sound.currentTime = 0;
   sound.addEventListener('play', () => button.classList.add('playing'));
   sound.addEventListener('ended', () => button.classList.remove('playing'));
   sound.play();

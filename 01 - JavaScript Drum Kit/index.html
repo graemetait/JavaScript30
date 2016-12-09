@@ -65,11 +65,19 @@ function playDrum(key) {
 
   if (!button) return;
 
+  button.classList.add('playing');
+
   sound.currentTime = 0;
-  sound.addEventListener('play', () => button.classList.add('playing'));
-  sound.addEventListener('ended', () => button.classList.remove('playing'));
   sound.play();
 }
+
+const sounds = document.querySelectorAll('audio');
+sounds.forEach(sound => {
+  sound.addEventListener('ended', () => {
+    const button = document.querySelector(`div[data-key="${sound.dataset.key}"]`);
+    button.classList.remove('playing');
+  });
+});
 
 window.addEventListener('keypress', e => playDrum(e.keyCode));
 

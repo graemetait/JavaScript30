@@ -59,6 +59,17 @@
 
 <script>
 
+function playDrum(key) {
+  const button = document.querySelector(`div[data-key="${key}"]`);
+  const sound = document.querySelector(`audio[data-key="${key}"]`);
+
+  button.classList.add('playing');
+  sound.play();
+  button.classList.remove('playing');
+}
+
+window.addEventListener('keypress', e => playDrum(e.keyCode));
+
 </script>
 
 

@@ -40,19 +40,18 @@ function filterCities(term) {
   }, []);
 }
 
+const formatPopulation = population => parseInt(population).toLocaleString('en-GB');
+
 $('.search').oninput = input => {
   const filteredCities = filterCities(input.target.value);
-  const listContainer = $('.suggestions');
-  const listItems = filteredCities.reduce((items, city) => {
-    const population = parseInt(city.population).toLocaleString('en-GB');
-    return items += `
-      <li>
-        <span class="name">${city.city}, ${city.state}</span>
-        <span class="population">${population}</span>
-      </li>`
-  }, '');
 
-  listContainer.innerHTML = listItems;
+  const listItems = filteredCities.reduce((items, city) => items += `
+    <li>
+      <span class="name">${city.city}, ${city.state}</span>
+      <span class="population">${formatPopulation(city.population)}</span>
+    </li>`, '');
+
+  $('.suggestions').innerHTML = listItems;
 };
 
 </script>

@@ -28,11 +28,11 @@ const $ = selector => document.querySelector(selector);
 function filterCities(term) {
   return cities.reduce((result, city) => {
 
-    if (city.city.toLowerCase().includes(term)) {
+    if (city.city.toLowerCase().includes(term.toLowerCase())) {
       result.push(city);
     }
 
-    if (city.state.toLowerCase().includes(term)) {
+    if (city.state.toLowerCase().includes(term.toLowerCase())) {
       result.push(city);
     }
 
@@ -43,11 +43,17 @@ function filterCities(term) {
 const formatPopulation = population => parseInt(population).toLocaleString('en-GB');
 
 $('.search').oninput = input => {
-  const filteredCities = filterCities(input.target.value);
+  const searchTerm = input.target.value;
+  const filteredCities = filterCities(searchTerm);
+
+  const highlightTerm = result => {
+    const re = new RegExp(searchTerm, 'gi');
+    return result.replace(re, `<span class="hl">${searchTerm}</span>`);
+  };
 
   const listItems = filteredCities.reduce((items, city) => items += `
     <li>
-      <span class="name">${city.city}, ${city.state}</span>
+      <span class="name">${highlightTerm(city.city)}, ${highlightTerm(city.state)}</span>
       <span class="population">${formatPopulation(city.population)}</span>
     </li>`, '');
 

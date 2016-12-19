@@ -28,13 +28,14 @@ const $ = selector => document.querySelector(selector);
 function filterCities(term) {
   return cities.reduce((result, city) => {
 
-    if (city.city.toLowerCase().includes(term.toLowerCase())) {
-      result.push(city);
-    }
+    const filterPlace = place => {
+      if (place.toLowerCase().includes(term.toLowerCase())) {
+        result.push(city);
+      }
+    };
 
-    if (city.state.toLowerCase().includes(term.toLowerCase())) {
-      result.push(city);
-    }
+    filterPlace(city.city);
+    filterPlace(city.state);
 
     return result;
   }, []);
@@ -54,7 +55,6 @@ function updateList(cities, searchTerm) {
       <span class="population">${formatPopulation(city.population)}</span>
     </li>`, '');
 }
-
 
 $('.search').oninput = input => {
   const searchTerm = input.target.value;

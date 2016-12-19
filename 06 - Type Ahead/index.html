@@ -26,19 +26,8 @@ fetch(endpoint)
 const $ = selector => document.querySelector(selector);
 
 function filterCities(term) {
-  return cities.reduce((result, city) => {
-
-    const filterPlace = place => {
-      if (place.toLowerCase().includes(term.toLowerCase())) {
-        result.push(city);
-      }
-    };
-
-    filterPlace(city.city);
-    filterPlace(city.state);
-
-    return result;
-  }, []);
+  const filterPlace = place => place.toLowerCase().includes(term.toLowerCase());
+  return cities.filter(city => filterPlace(city.city) || filterPlace(city.state));
 }
 
 function updateList(cities, searchTerm) {

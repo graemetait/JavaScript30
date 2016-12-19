@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+let cities;
+
+fetch(endpoint)
+  .then(response => response.json())
+  .then(json => cities = json);
+
+const $ = selector => document.querySelector(selector);
+
+function filterCities(term) {
+  return cities.reduce((result, city) => {
+
+    if (city.city.toLowerCase().includes(term)) {
+      result.push(city);
+    }
+
+    if (city.state.toLowerCase().includes(term)) {
+      result.push(city);
+    }
+
+    return result;
+  }, []);
+}
+
+$('.search').oninput = input => {
+  const filteredCities = filterCities(input.target.value);
+  const listContainer = $('.suggestions');
+  const listItems = filteredCities.reduce((items, city) => {
+    const population = parseInt(city.population).toLocaleString('en-GB');
+    return items += `
+      <li>
+        <span class="name">${city.city}, ${city.state}</span>
+        <span class="population">${population}</span>
+      </li>`
+  }, '');
+
+  listContainer.innerHTML = listItems;
+};
+
+</script>
+  </body>
+</html>

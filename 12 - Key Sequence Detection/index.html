@@ -13,7 +13,7 @@ let input = '';
 window.addEventListener('keypress', e => {
   input += e.key;
 
-  if (input.substr(-6) === code) {
+  if (input.substr(-code.length) === code) {
     input = '';
     cornify_add();
   }
